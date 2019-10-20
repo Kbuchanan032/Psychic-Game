@@ -6,7 +6,8 @@ var lost = 0;
 var attempts = 10;
 var usedArray;
 var ranLetter = ranLetter;
-var letters = "qwertyuiopasdfghjklzxcvbnm";
+var letters = ["qwertyuiopasdfghjklzxcvbnm"];
+var playerGuess;
 
 //Used to create the secret letter. This line of code runs as follows. starting with line '12'.
 // We call on the "ranLetter" var and set it equal to the "letters" variable. Then using the
@@ -17,8 +18,8 @@ console.log(ranLetter);
 
 //This functioin actually takes a letter from the command from above.
 function jsGuess() {
-  ranLetter = letters[Math.floor(math.random() * letters.length)];
-  console.log(ranLetter);
+  ranLetter = letters[Math.floor(Math.random() * letters.length)];
+  //console.log(ranLetter);
 }
 
 //This tracks the players keystrokes.
@@ -27,38 +28,21 @@ document.onkeyup = function(event) {
 };
 
 //This will notify the player if they guessed correctly.
-if (playerGuess == ranLetter) {
+if (playerGuess === ranLetter) {
   won++;
   attempts = 10;
-  uedArray = [];
+  usedArray = [];
 }
 
 //This command will run if the player guesses incorrectly.
 jsGuess();
-  if (playerGuess !== ranLetter) {
-   attempts--;
+if (playerGuess !== ranLetter) {
+  attempts--;
 
-//when the player runs out of guesses this command will register a loss
-if (attempts == 0) {
-  lost++;
-  usedArray = []
-  attempts = 10;
-
-  //HANDELING INCORRECT GUESSES - OUTPUT
-      //this 'if' prevents a letter selected a 2nd time from being written to the usedArray again, although it still counts as a guess
-      if (usedArray.indexOf(playerGuess) >= 0) {
-
-      } else {
-            //this pushes the players incorrect guess to the usedArray and writes it to the HTML
-            usedArray.push(playerGuess);
-            document.getElementById('playerGuess').innerHTML = usedArray;
-            console.log(usedArray);
-
-      }
-      //OUTPUT TO HTML
-      //these statements write the values/scores generated to the HTML
-      document.getElementById('won').innerHTML = won;
-      document.getElementById('lost').innerHTML = lost;
-      document.getElementById('attempts').innerHTML = attempts;
-
+  //when the player runs out of guesses this command will register a loss.
+  if (attempts == 0) {
+    lost++;
+    usedArray = [];
+    attempts = 10;
+  }
 }

@@ -1,0 +1,25 @@
+body {
+  font-family: "Zhi Mang Xing", cursive;
+  font-family: "Zhi Mang Xing", cursive;
+  align-content: center;
+  color: rgb(221, 73, 98);
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: center;
+  line-height: 36px;
+}
+
+html {
+  background-color: black;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  background-color: black;
+}
+
+.center {
+  width: 1024px;
+}
