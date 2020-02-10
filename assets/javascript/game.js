@@ -1,48 +1,98 @@
 //These are all the variables throughout the game.
 //Starting with the wins, losses, and attempts.
 //It also includes the array of letters used for the player to guess from.
+//players wins
 var won = 0;
+//players losses
 var lost = 0;
-var attempts = 10;
-var usedArray;
-var ranLetter = ranLetter;
-var letters = ["qwertyuiopasdfghjklzxcvbnm"];
-var playerGuess;
+//attemps left
+var attemptsRemaining = 10;
 
-//Used to create the secret letter. This line of code runs as follows. starting with line '12'.
-// We call on the "ranLetter" var and set it equal to the "letters" variable. Then using the
-//[Math.floor(Math.random() * letters.length)]; command it takes the whole length of the letters and cycles
-//through them and picks one. The console.log just makes sure to show the letter in the console when generated.
-ranLetter = letters[Math.floor(Math.random() * letters.length)];
-console.log(ranLetter);
+//The letter that the player is trying to guess
+var ranLetter = null;
 
-//This functioin actually takes a letter from the command from above.
-function jsGuess() {
+//All the letters possible to guess
+var letters = [
+  "q",
+  "e",
+  "r",
+  "t",
+  "o",
+  "s",
+  "d",
+  "h",
+  "j",
+  "k",
+  "z",
+  "x",
+  "d",
+  "b",
+  "a",
+  "m"
+];
+
+//The player's guesses
+var playerGuess = [];
+
+//Creates a random letter to guess beteween A and Z.
+function letterToGuess() {
   ranLetter = letters[Math.floor(Math.random() * letters.length)];
-  //console.log(ranLetter);
+  console.log(ranLetter);
 }
 
-//This tracks the players keystrokes.
-document.onkeyup = function(event) {
-  var playerGuess = event.key;
+var updatedGuessesRemaining = function() {
+  document.querySelector("#attempts").innerHTML = attemptsRemaining;
+
+  //console.log(attemptsRemaining);
+};
+//Grabs out playerGuess from out html and updated it with the letters the play chooses.
+var updateGuessesSoFar = function() {
+  document.querySelector("#playerGuess").innerHTML = playerGuess.join(", ");
 };
 
-//This will notify the player if they guessed correctly.
-if (playerGuess === ranLetter) {
-  won++;
-  attempts = 10;
-  usedArray = [];
-}
+var reset = function() {
+  attemptsRemaining = 10;
+  playerGuess = [];
+  updateGuessesSoFar();
+  updatedGuessesRemaining();
+  letterToGuess();
+};
 
-//This command will run if the player guesses incorrectly.
-jsGuess();
-if (playerGuess !== ranLetter) {
-  attempts--;
+//This tracks the players keystrokes and logs what they press.
+document.onkeyup = function(event) {
+  attemptsRemaining--;
+
+  var letter = String.fromCharCode(event.which).toLowerCase();
+
+  playerGuess.push(letter);
+
+  updateGuessesSoFar();
+  updatedGuessesRemaining();
+
+  //This will notify the player if they guessed correctly.
+  if (letter === ranLetter) {
+    won++;
+
+    document.querySelector("#won").innerHTML = won;
+
+    reset();
+  }
+  if (attemptsRemaining === 0) {
+    lost++;
+
+    document.querySelector("#lost").innerHTML = lost;
+
+    reset();
+    console.log(playerGuess);
+  }
+
+  //This command will run if the player guesses incorrectly.
+  //letterToGuess();
 
   //when the player runs out of guesses this command will register a loss.
-  if (attempts == 0) {
-    lost++;
-    usedArray = [];
-    attempts = 10;
-  }
-}
+  // if (attemptsRemaining == 0) {
+  //   lost++;
+  //   usedArray = [];
+  //   attempts = 10;
+  // }
+};
